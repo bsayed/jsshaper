@@ -490,7 +490,7 @@ var Shaper = (function() {
         }
         var src = node.tokenizer.source;
 
-        return node.tknString() +": "+
+        return node.tknString() +": "+ Fmt("(sc:{0}) ", (node._sc !== undefined)? node._sc : 0 ) +
             ("srcs" in node ? Fmt.abbrev(JSON.stringify(node.srcs.join("@")).slice(1,-1), 60) :
              "start" in node && "end" in node ?
              Fmt(" '{0}'", JSON.stringify(Fmt.abbrev(src.slice(node.start, node.end), 30))) :
