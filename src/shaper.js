@@ -9,6 +9,18 @@ var Shaper = (function() {
     Array.isArray = Array.isArray || function(o) {
         return Object.prototype.toString.call(o) === "[object Array]";
     };
+
+    /// Exposing the desugaring capability of Narcissus
+    function desugar(str,filename) {
+        var originalAST = Narcissus.parser.parse(str, filename || "<no filename>", 1);
+        var desugaredAST = Narcissus.desugaring.desugar(originalAST);
+        //var ast = srcsify(adjustStartEnd(adjustComments(adjustStartEnd(desugaredAST) )));
+        //log(desugaredAST);
+        return Narcissus.decompiler.pp(desugaredAST);
+        //srcsify(adjustStartEnd(adjustComments(adjustStartEnd(Narcissus.desugaring.desugar(ast) ))));
+    }
+
+
     function error(node, msg) {
         var str = Fmt("{0}:{1} error: {2}", node.tokenizer.filename, node.lineno, msg);
         if (typeof process !== "undefined") {
@@ -143,6 +155,7 @@ var Shaper = (function() {
         x[tkn.STRING] = ["value"]; // string (can differ from srcs)
         return x;
     })();
+
 
     //// generic traverse
     // visitfns: {pre: function, post: function}
@@ -747,6 +760,7 @@ var Shaper = (function() {
     shaper.get = get;
     shaper.run = run;
     shaper.tkn = tkn;
+    shaper.desugar = desugar;
 
     deprecated(shaper, {since: "0.1", was: "parseExpression", now: "parse"});
     deprecated(shaper, {since: "0.1", was: "insertArgument", now: "insertBefore or insertAfter"});

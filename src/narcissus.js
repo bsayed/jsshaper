@@ -1,6 +1,8 @@
 if (typeof define !== 'function') { var define = require('amdefine')(module); }
 
-define(['./jsecma5', './narcissus/lib/n', './narcissus/lib/jsparse'], function(_, Narcissus, parser) {
+define(['./jsecma5', './narcissus/lib/n', './narcissus/lib/jsparse',
+    './narcissus/lib/jsdesugar','./narcissus/lib/jsdecomp',
+    './narcissus/lib/jsIfcRewrite'], function(_, Narcissus, parser, desugar, decomp, ifcRewirte) {
 
     // from former jsmods.js:
     // module keyword is removed so that it parses like any identifier
