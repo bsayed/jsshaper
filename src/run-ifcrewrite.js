@@ -24,4 +24,13 @@ var IfcRewrite = IfcRewrite || require("./IfcRewrite.js") || IfcRewrite;
 var read = read || typeof readFile !== "undefined" && readFile || require("fs").readFileSync;
 var src = read(filename);
 var desugaredSrc = IfcRewrite.rewrite(src, filename);
-log(desugaredSrc);
+
+var fs = require('fs');
+fs.writeFile(filename + "_ifcRewritten.js", desugaredSrc, function(err) {
+    if(err) {
+        console.log(err);
+    } else {
+        console.log("IFC Rewrite terminated successfully, the output was saved to "+filename + "_ifcRewritten.js");
+    }
+});
+//log(desugaredSrc);
